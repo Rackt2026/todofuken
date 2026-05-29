@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -1238,14 +1237,14 @@
         revealAnswerEl.textContent = `${currentCorrectNumber}番 正解！`;
         revealRegionEl.textContent = `正解：${currentPref.name}`;
         markCorrectShape(currentPref);
-
-        autoTimer = setTimeout(() => {
-          createQuestion();
-        }, 2000);
       }
 
       playSound("reveal");
       createConfetti();
+
+      autoTimer = setTimeout(() => {
+        createQuestion();
+      }, 2000);
     }
 
     function createQuestion() {
