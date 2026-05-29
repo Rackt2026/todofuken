@@ -15,10 +15,11 @@
       min-height: 100vh;
       font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
       background:
-        radial-gradient(circle at top left, #fff8d7 0, transparent 30%),
-        radial-gradient(circle at bottom right, #dff6ff 0, transparent 35%),
-        linear-gradient(135deg, #f6fbff 0%, #fffdf5 100%);
+        radial-gradient(circle at top left, #fff4bd 0, transparent 32%),
+        radial-gradient(circle at bottom right, #c9f3ff 0, transparent 36%),
+        linear-gradient(135deg, #f6fbff 0%, #fffdf4 100%);
       color: #2f3a4a;
+      overflow-x: hidden;
     }
 
     .app {
@@ -34,11 +35,11 @@
 
     .badge {
       display: inline-block;
-      padding: 6px 14px;
+      padding: 6px 16px;
       background: #ffcf4a;
       border: 3px solid #2f3a4a;
       border-radius: 999px;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 14px;
       box-shadow: 0 4px 0 #2f3a4a;
       margin-bottom: 12px;
@@ -60,12 +61,13 @@
     }
 
     .panel {
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.96);
       border: 3px solid #2f3a4a;
       border-radius: 26px;
       box-shadow: 0 8px 0 #2f3a4a;
       padding: 18px;
       margin-bottom: 18px;
+      position: relative;
     }
 
     .topbar {
@@ -96,12 +98,20 @@
       color: #1f5f99;
     }
 
+    .mode-title {
+      text-align: center;
+      font-weight: 900;
+      color: #2f3a4a;
+      margin: 14px 0 8px;
+      font-size: 16px;
+    }
+
     .mode-box {
       display: flex;
       gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     button {
@@ -111,24 +121,40 @@
     }
 
     .mode-btn,
+    .control-btn,
+    .answer-btn,
+    .shape-choice {
+      transition: transform 0.05s, box-shadow 0.05s, background 0.15s;
+    }
+
+    .mode-btn,
     .control-btn {
       padding: 12px 16px;
       border-radius: 999px;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 15px;
       border: 3px solid #2f3a4a;
       box-shadow: 0 4px 0 #2f3a4a;
       background: #ffffff;
       color: #2f3a4a;
-      transition: transform 0.05s, box-shadow 0.05s, background 0.15s;
     }
 
     .mode-btn.active {
       background: #7bdff2;
     }
 
+    .mode-btn.study-active {
+      background: #b7f7c5;
+    }
+
     .control-btn {
       background: #ffef9f;
+    }
+
+    .answer-show-btn {
+      background: #ff9fcb;
+      font-size: 20px;
+      padding: 14px 24px;
     }
 
     .mode-btn:active,
@@ -168,9 +194,9 @@
     .shape-wrap.loading::after {
       content: "地図データを読み込み中...";
       position: absolute;
-      font-weight: 800;
+      font-weight: 900;
       color: #62748a;
-      background: rgba(255,255,255,.8);
+      background: rgba(255,255,255,.85);
       padding: 10px 14px;
       border-radius: 999px;
     }
@@ -253,14 +279,14 @@
       min-height: 34px;
       margin: 8px 0 12px;
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 900;
       color: #e27802;
     }
 
     .message {
-      min-height: 40px;
+      min-height: 42px;
       margin: 12px 0 8px;
-      font-size: 22px;
+      font-size: 23px;
       font-weight: 900;
       line-height: 1.5;
     }
@@ -271,6 +297,39 @@
 
     .message.ng {
       color: #d43d3d;
+    }
+
+    .reveal-box {
+      display: none;
+      max-width: 620px;
+      margin: 16px auto;
+      padding: 18px;
+      border: 4px solid #2f3a4a;
+      border-radius: 26px;
+      background: #fff6c7;
+      box-shadow: 0 6px 0 #2f3a4a;
+    }
+
+    .reveal-label {
+      font-size: 18px;
+      font-weight: 900;
+      color: #7a5600;
+      margin-bottom: 6px;
+    }
+
+    .reveal-answer {
+      font-size: clamp(34px, 8vw, 60px);
+      font-weight: 900;
+      color: #1f5f99;
+      line-height: 1.2;
+      text-shadow: 2px 2px 0 #ffffff;
+    }
+
+    .reveal-region {
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #e27802;
     }
 
     .controls {
@@ -302,6 +361,44 @@
       font-weight: 800;
       line-height: 1.7;
       display: none;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      top: -20px;
+      z-index: 9999;
+      pointer-events: none;
+      border-radius: 3px;
+      animation: fall 1.2s linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .pop {
+      animation: pop 0.35s ease;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.9);
+      }
+      60% {
+        transform: scale(1.08);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     @media (max-width: 640px) {
@@ -356,12 +453,12 @@
       <div class="badge">小学生 社会アプリ</div>
       <h1>都道府県シルエットクイズ</h1>
       <p class="lead">
-        形を見て都道府県名を答えたり、都道府県名を見て形を選んだりして学習します。
+        形を見て答える、県名を見て形を選ぶ。個人でも、みんなでも楽しく学べます。
       </p>
     </header>
 
     <section class="panel">
-      <div class="topbar">
+      <div class="topbar" id="scoreArea">
         <div class="status-card">
           <span>問題</span>
           <strong id="qCount">0</strong>
@@ -376,6 +473,13 @@
         </div>
       </div>
 
+      <div class="mode-title">学習スタイル</div>
+      <div class="mode-box">
+        <button class="mode-btn study-active" id="studyChoiceBtn">個人練習：4択で答える</button>
+        <button class="mode-btn" id="studyRevealBtn">みんなで考える：正解を見る</button>
+      </div>
+
+      <div class="mode-title">問題タイプ</div>
       <div class="mode-box">
         <button class="mode-btn active" id="modeShapeToName">形 → 県名</button>
         <button class="mode-btn" id="modeNameToShape">県名 → 形</button>
@@ -396,17 +500,25 @@
         <div id="textAnswers" class="answers"></div>
         <div id="shapeAnswers" class="shape-answers"></div>
 
+        <div id="revealBox" class="reveal-box">
+          <div class="reveal-label">正解は...</div>
+          <div id="revealAnswer" class="reveal-answer"></div>
+          <div id="revealRegion" class="reveal-region"></div>
+        </div>
+
         <div id="message" class="message"></div>
 
         <div class="controls">
           <button class="control-btn" id="hintBtn">ヒントを見る</button>
+          <button class="control-btn answer-show-btn" id="showAnswerBtn">正解を見る</button>
           <button class="control-btn" id="nextBtn">次の問題へ</button>
           <button class="control-btn" id="resetBtn">最初から</button>
         </div>
 
         <p class="small-note">
-          ※都道府県の形は GeoJSON データを読み込んで表示しています。GitHub Pages で使う場合は、インターネット接続が必要です。<br>
-          ※一部の離島なども含むため、小学生向けには「大まかな形を見て覚える」用途として使ってください。
+          ※「個人練習」は4択で答えるモードです。<br>
+          ※「みんなで考える」は、授業や集団学習で画面を見ながら考えたあとに、正解ボタンで答えを表示するモードです。<br>
+          ※都道府県の形は外部の地図データを読み込んで表示します。GitHub Pagesで使う場合はインターネット接続が必要です。
         </p>
       </div>
     </section>
@@ -467,14 +579,20 @@
 
     let geoFeaturesByCode = {};
     let currentPref = null;
+    let currentQuestionMode = "shapeToName";
+    let answerLocked = false;
+
+    let studyMode = "choice";
     let currentMode = "shapeToName";
-    let locked = false;
+
     let questionCount = 0;
     let correctCount = 0;
 
     const qCountEl = document.getElementById("qCount");
     const correctCountEl = document.getElementById("correctCount");
     const rateEl = document.getElementById("rate");
+
+    const scoreAreaEl = document.getElementById("scoreArea");
     const questionTitleEl = document.getElementById("questionTitle");
     const mainShapeWrapEl = document.getElementById("mainShapeWrap");
     const mainShapeEl = document.getElementById("mainShape");
@@ -482,10 +600,19 @@
     const shapeAnswersEl = document.getElementById("shapeAnswers");
     const hintTextEl = document.getElementById("hintText");
     const messageEl = document.getElementById("message");
+    const errorBox = document.getElementById("errorBox");
+
+    const revealBoxEl = document.getElementById("revealBox");
+    const revealAnswerEl = document.getElementById("revealAnswer");
+    const revealRegionEl = document.getElementById("revealRegion");
+
     const hintBtn = document.getElementById("hintBtn");
+    const showAnswerBtn = document.getElementById("showAnswerBtn");
     const nextBtn = document.getElementById("nextBtn");
     const resetBtn = document.getElementById("resetBtn");
-    const errorBox = document.getElementById("errorBox");
+
+    const studyChoiceBtn = document.getElementById("studyChoiceBtn");
+    const studyRevealBtn = document.getElementById("studyRevealBtn");
 
     const modeShapeToNameBtn = document.getElementById("modeShapeToName");
     const modeNameToShapeBtn = document.getElementById("modeNameToShape");
@@ -513,6 +640,60 @@
       correctCountEl.textContent = correctCount;
       const rate = questionCount === 0 ? 0 : Math.round((correctCount / questionCount) * 100);
       rateEl.textContent = rate + "%";
+    }
+
+    function playSound(type) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+
+      const audioCtx = new AudioContext();
+      const oscillator = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      oscillator.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === "correct") {
+        oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        oscillator.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
+        oscillator.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16);
+        gain.gain.setValueAtTime(0.16, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.45);
+      } else if (type === "wrong") {
+        oscillator.frequency.setValueAtTime(180, audioCtx.currentTime);
+        oscillator.frequency.setValueAtTime(120, audioCtx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.35);
+      } else {
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+        oscillator.frequency.setValueAtTime(660, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.35);
+      }
+    }
+
+    function createConfetti() {
+      const colors = ["#ffcf4a", "#7bdff2", "#b7f7c5", "#ff9fcb", "#cdb4db", "#ffadad"];
+
+      for (let i = 0; i < 36; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = Math.random() * 0.25 + "s";
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+
+        setTimeout(() => {
+          piece.remove();
+        }, 1600);
+      }
     }
 
     function normalizeCode(value) {
@@ -588,10 +769,10 @@
         return `<svg class="pref-svg" viewBox="0 0 ${size} ${size}" aria-label="都道府県の形"></svg>`;
       }
 
-      let minX = Math.min(...allPoints.map(p => p[0]));
-      let maxX = Math.max(...allPoints.map(p => p[0]));
-      let minY = Math.min(...allPoints.map(p => p[1]));
-      let maxY = Math.max(...allPoints.map(p => p[1]));
+      const minX = Math.min(...allPoints.map(p => p[0]));
+      const maxX = Math.max(...allPoints.map(p => p[0]));
+      const minY = Math.min(...allPoints.map(p => p[1]));
+      const maxY = Math.max(...allPoints.map(p => p[1]));
 
       const width = maxX - minX || 1;
       const height = maxY - minY || 1;
@@ -607,6 +788,7 @@
           const y = (p[1] - minY) * scale + offsetY;
           return `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
         }).join(" ") + " Z";
+
         return `<path class="pref-shape" d="${d}"></path>`;
       }).join("");
 
@@ -627,6 +809,9 @@
       textAnswersEl.innerHTML = "";
       shapeAnswersEl.innerHTML = "";
       hintTextEl.textContent = "";
+      revealBoxEl.style.display = "none";
+      revealAnswerEl.textContent = "";
+      revealRegionEl.textContent = "";
       showMessage("", "");
     }
 
@@ -656,17 +841,20 @@
     }
 
     function checkTextAnswer(button, selectedPref, correctPref) {
-      if (locked) return;
-      locked = true;
+      if (answerLocked) return;
+      answerLocked = true;
       questionCount++;
 
       if (selectedPref.code === correctPref.code) {
         correctCount++;
         button.classList.add("correct");
-        showMessage("正解！よくできました！", "ok");
+        showMessage("正解！すごい！よく見つけました！", "ok");
+        playSound("correct");
+        createConfetti();
       } else {
         button.classList.add("wrong");
         showMessage(`ざんねん。正解は「${correctPref.name}」です。`, "ng");
+        playSound("wrong");
         markCorrectText(correctPref);
       }
 
@@ -683,17 +871,20 @@
     }
 
     function checkShapeAnswer(button, selectedPref, correctPref) {
-      if (locked) return;
-      locked = true;
+      if (answerLocked) return;
+      answerLocked = true;
       questionCount++;
 
       if (selectedPref.code === correctPref.code) {
         correctCount++;
         button.classList.add("correct");
         showMessage("正解！形をよく見られています！", "ok");
+        playSound("correct");
+        createConfetti();
       } else {
         button.classList.add("wrong");
         showMessage(`ざんねん。正解は「${correctPref.name}」の形です。`, "ng");
+        playSound("wrong");
         markCorrectShape(correctPref);
       }
 
@@ -709,32 +900,82 @@
       });
     }
 
+    function showRevealAnswer() {
+      if (!currentPref) return;
+
+      revealBoxEl.style.display = "block";
+      revealBoxEl.classList.remove("pop");
+      void revealBoxEl.offsetWidth;
+      revealBoxEl.classList.add("pop");
+
+      if (currentQuestionMode === "shapeToName") {
+        revealAnswerEl.textContent = currentPref.name;
+        revealRegionEl.textContent = currentPref.region;
+      } else {
+        revealAnswerEl.textContent = currentPref.name;
+        revealRegionEl.textContent = "この形が正解です";
+        mainShapeWrapEl.style.display = "flex";
+        mainShapeEl.innerHTML = geometryToSvg(geoFeaturesByCode[currentPref.code], 300);
+      }
+
+      playSound("reveal");
+      createConfetti();
+    }
+
     function createQuestion() {
       clearQuestionArea();
-      locked = false;
+      answerLocked = false;
 
       currentPref = pickRandomPref();
 
-      let questionMode = currentMode;
+      currentQuestionMode = currentMode;
       if (currentMode === "mix") {
-        questionMode = Math.random() < 0.5 ? "shapeToName" : "nameToShape";
+        currentQuestionMode = Math.random() < 0.5 ? "shapeToName" : "nameToShape";
       }
 
-      if (questionMode === "shapeToName") {
+      if (studyMode === "choice") {
+        scoreAreaEl.style.display = "grid";
+        showAnswerBtn.style.display = "none";
+      } else {
+        scoreAreaEl.style.display = "none";
+        showAnswerBtn.style.display = "inline-block";
+      }
+
+      if (currentQuestionMode === "shapeToName") {
         mainShapeWrapEl.style.display = "flex";
         mainShapeEl.innerHTML = geometryToSvg(geoFeaturesByCode[currentPref.code], 300);
         questionTitleEl.textContent = "この形はどこの都道府県？";
         hintBtn.style.display = "inline-block";
-        makeTextChoices(currentPref);
-      } else {
-        mainShapeWrapEl.style.display = "none";
+
+        if (studyMode === "choice") {
+          makeTextChoices(currentPref);
+        }
+      }
+
+      if (currentQuestionMode === "nameToShape") {
         questionTitleEl.textContent = `「${currentPref.name}」の形はどれ？`;
-        hintBtn.style.display = "none";
-        makeShapeChoices(currentPref);
+
+        if (studyMode === "choice") {
+          mainShapeWrapEl.style.display = "none";
+          hintBtn.style.display = "none";
+          makeShapeChoices(currentPref);
+        } else {
+          mainShapeWrapEl.style.display = "none";
+          hintBtn.style.display = "none";
+        }
       }
     }
 
-    function setMode(mode) {
+    function setStudyMode(mode) {
+      studyMode = mode;
+
+      studyChoiceBtn.classList.toggle("study-active", mode === "choice");
+      studyRevealBtn.classList.toggle("study-active", mode === "reveal");
+
+      createQuestion();
+    }
+
+    function setQuestionMode(mode) {
       currentMode = mode;
 
       modeShapeToNameBtn.classList.toggle("active", mode === "shapeToName");
@@ -806,12 +1047,16 @@
       hintTextEl.textContent = `ヒント：${currentPref.region}`;
     });
 
+    showAnswerBtn.addEventListener("click", showRevealAnswer);
     nextBtn.addEventListener("click", createQuestion);
     resetBtn.addEventListener("click", resetGame);
 
-    modeShapeToNameBtn.addEventListener("click", () => setMode("shapeToName"));
-    modeNameToShapeBtn.addEventListener("click", () => setMode("nameToShape"));
-    modeMixBtn.addEventListener("click", () => setMode("mix"));
+    studyChoiceBtn.addEventListener("click", () => setStudyMode("choice"));
+    studyRevealBtn.addEventListener("click", () => setStudyMode("reveal"));
+
+    modeShapeToNameBtn.addEventListener("click", () => setQuestionMode("shapeToName"));
+    modeNameToShapeBtn.addEventListener("click", () => setQuestionMode("nameToShape"));
+    modeMixBtn.addEventListener("click", () => setQuestionMode("mix"));
 
     updateScore();
     loadGeoJson();
