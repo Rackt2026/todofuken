@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>都道府県シルエットクイズ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background:
+        radial-gradient(circle at top left, #fff8d7 0, transparent 30%),
+        radial-gradient(circle at bottom right, #dff6ff 0, transparent 35%),
+        linear-gradient(135deg, #f6fbff 0%, #fffdf5 100%);
+      color: #2f3a4a;
+    }
+
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #ffcf4a;
+      border: 3px solid #2f3a4a;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 4px 0 #2f3a4a;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 8px 0 6px;
+      font-size: clamp(26px, 6vw, 44px);
+      letter-spacing: 0.06em;
+      color: #1f5f99;
+      text-shadow: 2px 2px 0 #ffffff;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #52606d;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.94);
+      border: 3px solid #2f3a4a;
+      border-radius: 26px;
+      box-shadow: 0 8px 0 #2f3a4a;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .status-card {
+      background: #f7fbff;
+      border: 2px solid #d5e5f4;
+      border-radius: 18px;
+      padding: 10px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .status-card span {
+      display: block;
+      font-size: 12px;
+      color: #6d7a88;
+      margin-bottom: 4px;
+    }
+
+    .status-card strong {
+      font-size: 22px;
+      color: #1f5f99;
+    }
+
+    .mode-box {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+    }
+
+    .mode-btn,
+    .control-btn {
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 15px;
+      border: 3px solid #2f3a4a;
+      box-shadow: 0 4px 0 #2f3a4a;
+      background: #ffffff;
+      color: #2f3a4a;
+      transition: transform 0.05s, box-shadow 0.05s, background 0.15s;
+    }
+
+    .mode-btn.active {
+      background: #7bdff2;
+    }
+
+    .control-btn {
+      background: #ffef9f;
+    }
+
+    .mode-btn:active,
+    .control-btn:active,
+    .answer-btn:active,
+    .shape-choice:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    .question-area {
+      text-align: center;
+    }
+
+    .question-title {
+      font-size: clamp(22px, 5vw, 34px);
+      margin: 10px 0 16px;
+      color: #26384d;
+      line-height: 1.45;
+    }
+
+    .shape-wrap {
+      width: 100%;
+      max-width: 420px;
+      height: 320px;
+      margin: 0 auto 16px;
+      background: #f8fbff;
+      border: 3px dashed #a7c7e7;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .shape-wrap.loading::after {
+      content: "地図データを読み込み中...";
+      position: absolute;
+      font-weight: 800;
+      color: #62748a;
+      background: rgba(255,255,255,.8);
+      padding: 10px 14px;
+      border-radius: 999px;
+    }
+
+    svg.pref-svg {
+      width: 92%;
+      height: 92%;
+      display: block;
+    }
+
+    .pref-shape {
+      fill: #62c370;
+      stroke: #23633a;
+      stroke-width: 2.6;
+      stroke-linejoin: round;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 640px;
+      margin: 14px auto;
+    }
+
+    .answer-btn {
+      min-height: 64px;
+      padding: 12px;
+      border-radius: 20px;
+      border: 3px solid #2f3a4a;
+      box-shadow: 0 5px 0 #2f3a4a;
+      background: #ffffff;
+      font-size: clamp(18px, 4.5vw, 26px);
+      font-weight: 900;
+      color: #26384d;
+    }
+
+    .answer-btn.correct {
+      background: #b7f7c5;
+    }
+
+    .answer-btn.wrong {
+      background: #ffd1d1;
+    }
+
+    .shape-answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 760px;
+      margin: 14px auto;
+    }
+
+    .shape-choice {
+      height: 180px;
+      padding: 10px;
+      border-radius: 22px;
+      border: 3px solid #2f3a4a;
+      box-shadow: 0 5px 0 #2f3a4a;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shape-choice.correct {
+      background: #b7f7c5;
+    }
+
+    .shape-choice.wrong {
+      background: #ffd1d1;
+    }
+
+    .shape-choice svg {
+      width: 96%;
+      height: 96%;
+    }
+
+    .hint {
+      min-height: 34px;
+      margin: 8px 0 12px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #e27802;
+    }
+
+    .message {
+      min-height: 40px;
+      margin: 12px 0 8px;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.5;
+    }
+
+    .message.ok {
+      color: #148a3b;
+    }
+
+    .message.ng {
+      color: #d43d3d;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .small-note {
+      margin: 14px auto 0;
+      max-width: 760px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #6d7a88;
+      text-align: left;
+      background: #f7fbff;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
+    .error-box {
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff1f1;
+      border: 3px solid #e86b6b;
+      color: #8c1f1f;
+      font-weight: 800;
+      line-height: 1.7;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .app {
+        padding: 12px;
+      }
+
+      .panel {
+        padding: 14px;
+        border-radius: 22px;
+      }
+
+      .topbar {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 7px;
+      }
+
+      .status-card {
+        padding: 8px 4px;
+      }
+
+      .status-card strong {
+        font-size: 18px;
+      }
+
+      .shape-wrap {
+        height: 260px;
+      }
+
+      .answers,
+      .shape-answers {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .answer-btn {
+        min-height: 58px;
+        font-size: 18px;
+        border-radius: 17px;
+      }
+
+      .shape-choice {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="badge">小学生 社会アプリ</div>
+      <h1>都道府県シルエットクイズ</h1>
+      <p class="lead">
+        形を見て都道府県名を答えたり、都道府県名を見て形を選んだりして学習します。
+      </p>
+    </header>
+
+    <section class="panel">
+      <div class="topbar">
+        <div class="status-card">
+          <span>問題</span>
+          <strong id="qCount">0</strong>
+        </div>
+        <div class="status-card">
+          <span>正解</span>
+          <strong id="correctCount">0</strong>
+        </div>
+        <div class="status-card">
+          <span>正答率</span>
+          <strong id="rate">0%</strong>
+        </div>
+      </div>
+
+      <div class="mode-box">
+        <button class="mode-btn active" id="modeShapeToName">形 → 県名</button>
+        <button class="mode-btn" id="modeNameToShape">県名 → 形</button>
+        <button class="mode-btn" id="modeMix">ミックス</button>
+      </div>
+
+      <div id="errorBox" class="error-box"></div>
+
+      <div class="question-area">
+        <h2 class="question-title" id="questionTitle">地図データを読み込んでいます</h2>
+
+        <div id="mainShapeWrap" class="shape-wrap loading">
+          <div id="mainShape"></div>
+        </div>
+
+        <div class="hint" id="hintText"></div>
+
+        <div id="textAnswers" class="answers"></div>
+        <div id="shapeAnswers" class="shape-answers"></div>
+
+        <div id="message" class="message"></div>
+
+        <div class="controls">
+          <button class="control-btn" id="hintBtn">ヒントを見る</button>
+          <button class="control-btn" id="nextBtn">次の問題へ</button>
+          <button class="control-btn" id="resetBtn">最初から</button>
+        </div>
+
+        <p class="small-note">
+          ※都道府県の形は GeoJSON データを読み込んで表示しています。GitHub Pages で使う場合は、インターネット接続が必要です。<br>
+          ※一部の離島なども含むため、小学生向けには「大まかな形を見て覚える」用途として使ってください。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const PREFS = [
+      { code: "01", name: "北海道", region: "北海道地方" },
+      { code: "02", name: "青森県", region: "東北地方" },
+      { code: "03", name: "岩手県", region: "東北地方" },
+      { code: "04", name: "宮城県", region: "東北地方" },
+      { code: "05", name: "秋田県", region: "東北地方" },
+      { code: "06", name: "山形県", region: "東北地方" },
+      { code: "07", name: "福島県", region: "東北地方" },
+      { code: "08", name: "茨城県", region: "関東地方" },
+      { code: "09", name: "栃木県", region: "関東地方" },
+      { code: "10", name: "群馬県", region: "関東地方" },
+      { code: "11", name: "埼玉県", region: "関東地方" },
+      { code: "12", name: "千葉県", region: "関東地方" },
+      { code: "13", name: "東京都", region: "関東地方" },
+      { code: "14", name: "神奈川県", region: "関東地方" },
+      { code: "15", name: "新潟県", region: "中部地方" },
+      { code: "16", name: "富山県", region: "中部地方" },
+      { code: "17", name: "石川県", region: "中部地方" },
+      { code: "18", name: "福井県", region: "中部地方" },
+      { code: "19", name: "山梨県", region: "中部地方" },
+      { code: "20", name: "長野県", region: "中部地方" },
+      { code: "21", name: "岐阜県", region: "中部地方" },
+      { code: "22", name: "静岡県", region: "中部地方" },
+      { code: "23", name: "愛知県", region: "中部地方" },
+      { code: "24", name: "三重県", region: "近畿地方" },
+      { code: "25", name: "滋賀県", region: "近畿地方" },
+      { code: "26", name: "京都府", region: "近畿地方" },
+      { code: "27", name: "大阪府", region: "近畿地方" },
+      { code: "28", name: "兵庫県", region: "近畿地方" },
+      { code: "29", name: "奈良県", region: "近畿地方" },
+      { code: "30", name: "和歌山県", region: "近畿地方" },
+      { code: "31", name: "鳥取県", region: "中国地方" },
+      { code: "32", name: "島根県", region: "中国地方" },
+      { code: "33", name: "岡山県", region: "中国地方" },
+      { code: "34", name: "広島県", region: "中国地方" },
+      { code: "35", name: "山口県", region: "中国地方" },
+      { code: "36", name: "徳島県", region: "四国地方" },
+      { code: "37", name: "香川県", region: "四国地方" },
+      { code: "38", name: "愛媛県", region: "四国地方" },
+      { code: "39", name: "高知県", region: "四国地方" },
+      { code: "40", name: "福岡県", region: "九州・沖縄地方" },
+      { code: "41", name: "佐賀県", region: "九州・沖縄地方" },
+      { code: "42", name: "長崎県", region: "九州・沖縄地方" },
+      { code: "43", name: "熊本県", region: "九州・沖縄地方" },
+      { code: "44", name: "大分県", region: "九州・沖縄地方" },
+      { code: "45", name: "宮崎県", region: "九州・沖縄地方" },
+      { code: "46", name: "鹿児島県", region: "九州・沖縄地方" },
+      { code: "47", name: "沖縄県", region: "九州・沖縄地方" }
+    ];
+
+    const GEOJSON_URL = "https://cdn.jsdelivr.net/gh/amay077/JapanPrefGeoJson@master/japan.geojson";
+
+    let geoFeaturesByCode = {};
+    let currentPref = null;
+    let currentMode = "shapeToName";
+    let locked = false;
+    let questionCount = 0;
+    let correctCount = 0;
+
+    const qCountEl = document.getElementById("qCount");
+    const correctCountEl = document.getElementById("correctCount");
+    const rateEl = document.getElementById("rate");
+    const questionTitleEl = document.getElementById("questionTitle");
+    const mainShapeWrapEl = document.getElementById("mainShapeWrap");
+    const mainShapeEl = document.getElementById("mainShape");
+    const textAnswersEl = document.getElementById("textAnswers");
+    const shapeAnswersEl = document.getElementById("shapeAnswers");
+    const hintTextEl = document.getElementById("hintText");
+    const messageEl = document.getElementById("message");
+    const hintBtn = document.getElementById("hintBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const errorBox = document.getElementById("errorBox");
+
+    const modeShapeToNameBtn = document.getElementById("modeShapeToName");
+    const modeNameToShapeBtn = document.getElementById("modeNameToShape");
+    const modeMixBtn = document.getElementById("modeMix");
+
+    function shuffle(array) {
+      const copied = [...array];
+      for (let i = copied.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copied[i], copied[j]] = [copied[j], copied[i]];
+      }
+      return copied;
+    }
+
+    function pickRandomPref() {
+      return PREFS[Math.floor(Math.random() * PREFS.length)];
+    }
+
+    function getWrongPrefs(correctCode, count = 3) {
+      return shuffle(PREFS.filter(p => p.code !== correctCode)).slice(0, count);
+    }
+
+    function updateScore() {
+      qCountEl.textContent = questionCount;
+      correctCountEl.textContent = correctCount;
+      const rate = questionCount === 0 ? 0 : Math.round((correctCount / questionCount) * 100);
+      rateEl.textContent = rate + "%";
+    }
+
+    function normalizeCode(value) {
+      if (value === undefined || value === null) return "";
+      const str = String(value);
+      const match = str.match(/\d+/);
+      if (!match) return "";
+      return match[0].padStart(2, "0").slice(0, 2);
+    }
+
+    function findCodeFromProperties(properties) {
+      const keys = [
+        "code",
+        "pref",
+        "prefectureCode",
+        "N03_007",
+        "id",
+        "ID",
+        "PREF",
+        "jiscode"
+      ];
+
+      for (const key of keys) {
+        if (properties && properties[key] !== undefined) {
+          const code = normalizeCode(properties[key]);
+          if (code) return code;
+        }
+      }
+
+      const values = Object.values(properties || {});
+      for (const v of values) {
+        const code = normalizeCode(v);
+        if (PREFS.some(p => p.code === code)) return code;
+      }
+
+      return "";
+    }
+
+    function lonLatToPoint(lon, lat) {
+      const x = lon;
+      const sin = Math.sin((lat * Math.PI) / 180);
+      const y = 0.5 * Math.log((1 + sin) / (1 - sin)) * 180 / Math.PI;
+      return [x, -y];
+    }
+
+    function collectRings(geometry) {
+      if (!geometry) return [];
+
+      if (geometry.type === "Polygon") {
+        return geometry.coordinates;
+      }
+
+      if (geometry.type === "MultiPolygon") {
+        return geometry.coordinates.flat();
+      }
+
+      return [];
+    }
+
+    function geometryToSvg(feature, size = 300) {
+      if (!feature) {
+        return `<svg class="pref-svg" viewBox="0 0 ${size} ${size}" aria-label="都道府県の形"></svg>`;
+      }
+
+      const rings = collectRings(feature.geometry);
+      const projectedRings = rings.map(ring =>
+        ring.map(coord => lonLatToPoint(coord[0], coord[1]))
+      );
+
+      const allPoints = projectedRings.flat();
+
+      if (allPoints.length === 0) {
+        return `<svg class="pref-svg" viewBox="0 0 ${size} ${size}" aria-label="都道府県の形"></svg>`;
+      }
+
+      let minX = Math.min(...allPoints.map(p => p[0]));
+      let maxX = Math.max(...allPoints.map(p => p[0]));
+      let minY = Math.min(...allPoints.map(p => p[1]));
+      let maxY = Math.max(...allPoints.map(p => p[1]));
+
+      const width = maxX - minX || 1;
+      const height = maxY - minY || 1;
+      const padding = 20;
+      const scale = Math.min((size - padding * 2) / width, (size - padding * 2) / height);
+
+      const offsetX = (size - width * scale) / 2;
+      const offsetY = (size - height * scale) / 2;
+
+      const paths = projectedRings.map(ring => {
+        const d = ring.map((p, index) => {
+          const x = (p[0] - minX) * scale + offsetX;
+          const y = (p[1] - minY) * scale + offsetY;
+          return `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
+        }).join(" ") + " Z";
+        return `<path class="pref-shape" d="${d}"></path>`;
+      }).join("");
+
+      return `
+        <svg class="pref-svg" viewBox="0 0 ${size} ${size}" aria-label="都道府県の形">
+          ${paths}
+        </svg>
+      `;
+    }
+
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = "message " + (type || "");
+    }
+
+    function clearQuestionArea() {
+      mainShapeEl.innerHTML = "";
+      textAnswersEl.innerHTML = "";
+      shapeAnswersEl.innerHTML = "";
+      hintTextEl.textContent = "";
+      showMessage("", "");
+    }
+
+    function makeTextChoices(correctPref) {
+      const choices = shuffle([correctPref, ...getWrongPrefs(correctPref.code, 3)]);
+
+      choices.forEach(pref => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.textContent = pref.name;
+        btn.onclick = () => checkTextAnswer(btn, pref, correctPref);
+        textAnswersEl.appendChild(btn);
+      });
+    }
+
+    function makeShapeChoices(correctPref) {
+      const choices = shuffle([correctPref, ...getWrongPrefs(correctPref.code, 3)]);
+
+      choices.forEach(pref => {
+        const btn = document.createElement("button");
+        btn.className = "shape-choice";
+        btn.setAttribute("aria-label", pref.name);
+        btn.innerHTML = geometryToSvg(geoFeaturesByCode[pref.code], 220);
+        btn.onclick = () => checkShapeAnswer(btn, pref, correctPref);
+        shapeAnswersEl.appendChild(btn);
+      });
+    }
+
+    function checkTextAnswer(button, selectedPref, correctPref) {
+      if (locked) return;
+      locked = true;
+      questionCount++;
+
+      if (selectedPref.code === correctPref.code) {
+        correctCount++;
+        button.classList.add("correct");
+        showMessage("正解！よくできました！", "ok");
+      } else {
+        button.classList.add("wrong");
+        showMessage(`ざんねん。正解は「${correctPref.name}」です。`, "ng");
+        markCorrectText(correctPref);
+      }
+
+      updateScore();
+    }
+
+    function markCorrectText(correctPref) {
+      const buttons = textAnswersEl.querySelectorAll(".answer-btn");
+      buttons.forEach(btn => {
+        if (btn.textContent === correctPref.name) {
+          btn.classList.add("correct");
+        }
+      });
+    }
+
+    function checkShapeAnswer(button, selectedPref, correctPref) {
+      if (locked) return;
+      locked = true;
+      questionCount++;
+
+      if (selectedPref.code === correctPref.code) {
+        correctCount++;
+        button.classList.add("correct");
+        showMessage("正解！形をよく見られています！", "ok");
+      } else {
+        button.classList.add("wrong");
+        showMessage(`ざんねん。正解は「${correctPref.name}」の形です。`, "ng");
+        markCorrectShape(correctPref);
+      }
+
+      updateScore();
+    }
+
+    function markCorrectShape(correctPref) {
+      const buttons = shapeAnswersEl.querySelectorAll(".shape-choice");
+      buttons.forEach(btn => {
+        if (btn.getAttribute("aria-label") === correctPref.name) {
+          btn.classList.add("correct");
+        }
+      });
+    }
+
+    function createQuestion() {
+      clearQuestionArea();
+      locked = false;
+
+      currentPref = pickRandomPref();
+
+      let questionMode = currentMode;
+      if (currentMode === "mix") {
+        questionMode = Math.random() < 0.5 ? "shapeToName" : "nameToShape";
+      }
+
+      if (questionMode === "shapeToName") {
+        mainShapeWrapEl.style.display = "flex";
+        mainShapeEl.innerHTML = geometryToSvg(geoFeaturesByCode[currentPref.code], 300);
+        questionTitleEl.textContent = "この形はどこの都道府県？";
+        hintBtn.style.display = "inline-block";
+        makeTextChoices(currentPref);
+      } else {
+        mainShapeWrapEl.style.display = "none";
+        questionTitleEl.textContent = `「${currentPref.name}」の形はどれ？`;
+        hintBtn.style.display = "none";
+        makeShapeChoices(currentPref);
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+
+      modeShapeToNameBtn.classList.toggle("active", mode === "shapeToName");
+      modeNameToShapeBtn.classList.toggle("active", mode === "nameToShape");
+      modeMixBtn.classList.toggle("active", mode === "mix");
+
+      createQuestion();
+    }
+
+    function resetGame() {
+      questionCount = 0;
+      correctCount = 0;
+      updateScore();
+      createQuestion();
+    }
+
+    async function loadGeoJson() {
+      try {
+        mainShapeWrapEl.classList.add("loading");
+
+        const response = await fetch(GEOJSON_URL);
+        if (!response.ok) {
+          throw new Error("地図データを読み込めませんでした。");
+        }
+
+        const geojson = await response.json();
+
+        if (!geojson.features || !Array.isArray(geojson.features)) {
+          throw new Error("地図データの形式を確認できませんでした。");
+        }
+
+        geoFeaturesByCode = {};
+
+        geojson.features.forEach(feature => {
+          const code = findCodeFromProperties(feature.properties || {});
+          if (code) {
+            geoFeaturesByCode[code] = feature;
+          }
+        });
+
+        const missing = PREFS.filter(p => !geoFeaturesByCode[p.code]);
+
+        if (missing.length > 0) {
+          throw new Error(
+            "一部の都道府県データを読み込めませんでした: " +
+            missing.map(p => p.name).join("、")
+          );
+        }
+
+        mainShapeWrapEl.classList.remove("loading");
+        errorBox.style.display = "none";
+        createQuestion();
+
+      } catch (error) {
+        mainShapeWrapEl.classList.remove("loading");
+        questionTitleEl.textContent = "地図データの読み込みに失敗しました";
+        errorBox.style.display = "block";
+        errorBox.innerHTML = `
+          地図データを読み込めませんでした。<br>
+          GitHub Pages にアップしたあと、インターネット接続がある状態で開いてください。<br>
+          それでも表示されない場合は、GeoJSONデータを同じフォルダに置く方式へ変更できます。<br><br>
+          エラー内容：${error.message}
+        `;
+      }
+    }
+
+    hintBtn.addEventListener("click", () => {
+      if (!currentPref) return;
+      hintTextEl.textContent = `ヒント：${currentPref.region}`;
+    });
+
+    nextBtn.addEventListener("click", createQuestion);
+    resetBtn.addEventListener("click", resetGame);
+
+    modeShapeToNameBtn.addEventListener("click", () => setMode("shapeToName"));
+    modeNameToShapeBtn.addEventListener("click", () => setMode("nameToShape"));
+    modeMixBtn.addEventListener("click", () => setMode("mix"));
+
+    updateScore();
+    loadGeoJson();
+  </script>
+</body>
+</html>
