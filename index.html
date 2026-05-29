@@ -4,7 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>都道府県シルエットクイズ</title>
+/* 四角枠の重い影を削除 */
+.panel,
+.question-card,
+.answer-btn,
+.shape-choice,
+.shape-wrap,
+.reveal-box,
+.start-btn,
+.mode-btn,
+.control-btn,
+.back-btn,
+.judge-mark {
+  box-shadow: none !important;
+}
 
+/* 点線枠内に地図が収まりやすいように調整 */
+svg.pref-svg {
+  width: 84% !important;
+  height: 84% !important;
+}
+
+/* 地図表示枠も少し余白を広めに */
+.shape-wrap {
+  padding: 10px;
+}
   <style>
     * {
       box-sizing: border-box;
