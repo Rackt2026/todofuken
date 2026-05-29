@@ -44,6 +44,10 @@
       padding: 8px 14px;
     }
 
+    .top-header {
+      display: block;
+    }
+
     .logo-area {
       text-align: center;
       margin: 2px 0 2px;
@@ -162,6 +166,7 @@
       font-weight: 900;
       transition: transform .05s, background .15s;
       box-shadow: none;
+      cursor: pointer;
     }
 
     .start-btn:nth-child(2) {
@@ -718,16 +723,18 @@
   </div>
 
   <main class="app">
-    <div class="logo-area">
-      <a href="https://manabiya-tsubame.com/" target="_blank" rel="noopener">
-        <img src="rogo.png" alt="まなびやつばめ">
-      </a>
-    </div>
+    <div id="topHeader" class="top-header">
+      <div class="logo-area">
+        <a href="https://manabiya-tsubame.com/" target="_blank" rel="noopener">
+          <img src="rogo.png" alt="まなびやつばめ">
+        </a>
+      </div>
 
-    <header class="header">
-      <h1>都道府県<br>シルエットクイズ</h1>
-      <p class="lead">形を見て答える、県名を見て形を選ぶ。楽しく都道府県を覚えよう。</p>
-    </header>
+      <header class="header">
+        <h1>都道府県<br>シルエットクイズ</h1>
+        <p class="lead">形を見て答える、県名を見て形を選ぶ。楽しく都道府県を覚えよう。</p>
+      </header>
+    </div>
 
     <section class="panel">
       <div id="startScreen" class="start-screen">
@@ -859,6 +866,7 @@
     let geoLoaded = false;
     let autoTimer = null;
 
+    const topHeaderEl = document.getElementById("topHeader");
     const startScreenEl = document.getElementById("startScreen");
     const gameScreenEl = document.getElementById("gameScreen");
 
@@ -1277,6 +1285,7 @@
 
     function startGame(mode) {
       studyMode = mode;
+      topHeaderEl.style.display = "none";
       startScreenEl.style.display = "none";
       gameScreenEl.style.display = "block";
 
@@ -1292,6 +1301,7 @@
       hideJudge();
       gameScreenEl.style.display = "none";
       startScreenEl.style.display = "block";
+      topHeaderEl.style.display = "block";
       clearQuestionArea();
     }
 
