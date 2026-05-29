@@ -207,7 +207,7 @@
     }
 
     .score-text span {
-      margin: 0 10px;
+      margin: 0 8px;
       white-space: nowrap;
     }
 
@@ -503,6 +503,34 @@
       border-radius: 999px;
     }
 
+    .end-box {
+      max-width: 720px;
+      margin: 16px auto;
+      padding: 22px 18px;
+      border: 4px solid #26384d;
+      border-radius: 30px;
+      background: linear-gradient(180deg, #fff6c7 0%, #e2f8ff 100%);
+      text-align: center;
+      display: none;
+    }
+
+    .end-title {
+      font-size: clamp(34px, 7vw, 58px);
+      font-weight: 900;
+      color: #1f5f99;
+      text-shadow:
+        2px 2px 0 #ffffff,
+        4px 4px 0 #ffcf4a;
+      margin-bottom: 10px;
+    }
+
+    .end-text {
+      font-size: 20px;
+      font-weight: 900;
+      color: #26384d;
+      line-height: 1.6;
+    }
+
     .controls {
       display: flex;
       justify-content: center;
@@ -639,11 +667,11 @@
       }
 
       .score-text {
-        font-size: 15px;
+        font-size: 14px;
       }
 
       .score-text span {
-        margin: 0 4px;
+        margin: 0 3px;
       }
 
       .mode-row {
@@ -749,7 +777,7 @@
 
       <div id="gameScreen" class="game-screen">
         <div class="score-text" id="scoreArea">
-          <span>問題：<strong id="qCount">0</strong></span>
+          <span>問題：<strong id="qCount">0</strong>/47</span>
           <span>正解：<strong id="correctCount">0</strong></span>
           <span>正答率：<strong id="rate">0%</strong></span>
         </div>
@@ -764,7 +792,7 @@
 
         <div id="errorBox" class="error-box"></div>
 
-        <div class="question-area">
+        <div class="question-area" id="questionArea">
           <div class="question-card">
             <h2 class="question-title" id="questionTitle">地図データを読み込んでいます</h2>
           </div>
@@ -788,6 +816,15 @@
             <button class="control-btn" id="hintBtn">ヒントを見る</button>
             <button class="control-btn answer-show-btn" id="showAnswerBtn">正解を見る</button>
             <button class="control-btn" id="resetBtn">最初から</button>
+          </div>
+        </div>
+
+        <div id="endBox" class="end-box">
+          <div class="end-title">全問終了！</div>
+          <div class="end-text" id="endText"></div>
+          <div class="controls">
+            <button class="control-btn" id="restartBtn">もう一度やる</button>
+            <button class="back-btn" id="endBackStartBtn">スタートへ</button>
           </div>
         </div>
       </div>
@@ -853,15 +890,18 @@
     let answerLocked = false;
     let studyMode = "choice";
     let currentMode = "shapeToName";
-    let questionCount = 0;
-    let correctCount = 0;
     let geoLoaded = false;
     let autoTimer = null;
     let currentCorrectNumber = null;
 
+    const gameStates = {};
+
     const topHeaderEl = document.getElementById("topHeader");
     const startScreenEl = document.getElementById("startScreen");
     const gameScreenEl = document.getElementById("gameScreen");
+    const questionAreaEl = document.getElementById("questionArea");
+    const endBoxEl = document.getElementById("endBox");
+    const endTextEl = document.getElementById("endText");
 
     const qCountEl = document.getElementById("qCount");
     const correctCountEl = document.getElementById("correctCount");
@@ -886,10 +926,12 @@
     const hintBtn = document.getElementById("hintBtn");
     const showAnswerBtn = document.getElementById("showAnswerBtn");
     const resetBtn = document.getElementById("resetBtn");
+    const restartBtn = document.getElementById("restartBtn");
 
     const startChoiceBtn = document.getElementById("startChoiceBtn");
     const startRevealBtn = document.getElementById("startRevealBtn");
     const backStartBtn = document.getElementById("backStartBtn");
+    const endBackStartBtn = document.getElementById("endBackStartBtn");
 
     const modeShapeToNameBtn = document.getElementById("modeShapeToName");
     const modeNameToShapeBtn = document.getElementById("modeNameToShape");
@@ -904,8 +946,30 @@
       return copied;
     }
 
-    function pickRandomPref() {
-      return PREFS[Math.floor(Math.random() * PREFS.length)];
+    function getCategoryKey() {
+      return `${studyMode}_${currentMode}`;
+    }
+
+    function createNewState() {
+      return {
+        deck: shuffle(PREFS),
+        index: 0,
+        questionCount: 0,
+        correctCount: 0,
+        finished: false
+      };
+    }
+
+    function getState() {
+      const key = getCategoryKey();
+      if (!gameStates[key]) {
+        gameStates[key] = createNewState();
+      }
+      return gameStates[key];
+    }
+
+    function resetCurrentState() {
+      gameStates[getCategoryKey()] = createNewState();
     }
 
     function getWrongPrefs(correctCode, count = 3) {
@@ -913,9 +977,10 @@
     }
 
     function updateScore() {
-      qCountEl.textContent = questionCount;
-      correctCountEl.textContent = correctCount;
-      const rate = questionCount === 0 ? 0 : Math.round((correctCount / questionCount) * 100);
+      const state = getState();
+      qCountEl.textContent = state.questionCount;
+      correctCountEl.textContent = state.correctCount;
+      const rate = state.questionCount === 0 ? 0 : Math.round((state.correctCount / state.questionCount) * 100);
       rateEl.textContent = rate + "%";
     }
 
@@ -1079,6 +1144,8 @@
     function clearQuestionArea() {
       clearAutoTimer();
       hideJudge();
+      questionAreaEl.style.display = "block";
+      endBoxEl.style.display = "none";
       mainShapeEl.innerHTML = "";
       textAnswersEl.innerHTML = "";
       shapeAnswersEl.innerHTML = "";
@@ -1087,6 +1154,29 @@
       revealAnswerEl.textContent = "";
       revealRegionEl.textContent = "";
       currentCorrectNumber = null;
+    }
+
+    function finishRound() {
+      const state = getState();
+      state.finished = true;
+      clearQuestionArea();
+      questionAreaEl.style.display = "none";
+      endBoxEl.style.display = "block";
+
+      const rate = state.questionCount === 0 ? 0 : Math.round((state.correctCount / state.questionCount) * 100);
+      endTextEl.innerHTML = `
+        47都道府県、すべて出題しました。<br>
+        正解：${state.correctCount}問 ／ 47問<br>
+        正答率：${rate}%
+      `;
+
+      createConfetti();
+    }
+
+    function nextAfterDelay(ms) {
+      autoTimer = setTimeout(() => {
+        createQuestion();
+      }, ms);
     }
 
     function makeTextChoices(correctPref) {
@@ -1133,20 +1223,18 @@
     function checkTextAnswer(button, selectedPref, correctPref) {
       if (answerLocked) return;
       answerLocked = true;
-      questionCount++;
+
+      const state = getState();
+      state.questionCount++;
 
       if (selectedPref.code === correctPref.code) {
-        correctCount++;
+        state.correctCount++;
         button.classList.add("correct");
         updateScore();
         showJudge("correct", "◯ 正解！");
         playSound("correct");
         createConfetti();
-
-        autoTimer = setTimeout(() => {
-          createQuestion();
-        }, 1000);
-
+        nextAfterDelay(1000);
       } else {
         button.classList.add("wrong");
         markCorrectText(correctPref);
@@ -1154,10 +1242,7 @@
         showJudge("wrong", "×");
         playSound("wrong");
         showCorrectAnswer(correctPref);
-
-        autoTimer = setTimeout(() => {
-          createQuestion();
-        }, 2000);
+        nextAfterDelay(2000);
       }
     }
 
@@ -1173,20 +1258,18 @@
     function checkShapeAnswer(button, selectedPref, correctPref) {
       if (answerLocked) return;
       answerLocked = true;
-      questionCount++;
+
+      const state = getState();
+      state.questionCount++;
 
       if (selectedPref.code === correctPref.code) {
-        correctCount++;
+        state.correctCount++;
         button.classList.add("correct");
         updateScore();
         showJudge("correct", `${currentCorrectNumber}番 正解！`);
         playSound("correct");
         createConfetti();
-
-        autoTimer = setTimeout(() => {
-          createQuestion();
-        }, 1500);
-
+        nextAfterDelay(1500);
       } else {
         button.classList.add("wrong");
         markCorrectShape(correctPref);
@@ -1194,10 +1277,7 @@
         showJudge("wrong", "×");
         playSound("wrong");
         showCorrectAnswer(correctPref);
-
-        autoTimer = setTimeout(() => {
-          createQuestion();
-        }, 2200);
+        nextAfterDelay(2200);
       }
     }
 
@@ -1228,6 +1308,10 @@
       if (!currentPref || answerLocked) return;
 
       answerLocked = true;
+
+      const state = getState();
+      state.questionCount++;
+
       revealBoxEl.style.display = "block";
 
       if (currentQuestionMode === "shapeToName") {
@@ -1239,19 +1323,26 @@
         markCorrectShape(currentPref);
       }
 
+      updateScore();
       playSound("reveal");
       createConfetti();
-
-      autoTimer = setTimeout(() => {
-        createQuestion();
-      }, 2000);
+      nextAfterDelay(2000);
     }
 
     function createQuestion() {
       clearQuestionArea();
       answerLocked = false;
 
-      currentPref = pickRandomPref();
+      const state = getState();
+
+      if (state.finished || state.index >= state.deck.length) {
+        finishRound();
+        updateScore();
+        return;
+      }
+
+      currentPref = state.deck[state.index];
+      state.index++;
 
       currentQuestionMode = currentMode;
       if (currentMode === "mix") {
@@ -1284,6 +1375,8 @@
 
         makeShapeChoices(currentPref);
       }
+
+      updateScore();
     }
 
     function startGame(mode) {
@@ -1293,7 +1386,7 @@
       gameScreenEl.style.display = "block";
 
       if (geoLoaded) {
-        resetGame();
+        createQuestion();
       } else {
         loadGeoJson();
       }
@@ -1320,8 +1413,7 @@
     }
 
     function resetGame() {
-      questionCount = 0;
-      correctCount = 0;
+      resetCurrentState();
       updateScore();
       createQuestion();
     }
@@ -1363,7 +1455,7 @@
         geoLoaded = true;
         mainShapeWrapEl.classList.remove("loading");
         errorBox.style.display = "none";
-        resetGame();
+        createQuestion();
 
       } catch (error) {
         mainShapeWrapEl.classList.remove("loading");
@@ -1384,10 +1476,12 @@
 
     showAnswerBtn.addEventListener("click", showRevealAnswer);
     resetBtn.addEventListener("click", resetGame);
+    restartBtn.addEventListener("click", resetGame);
 
     startChoiceBtn.addEventListener("click", () => startGame("choice"));
     startRevealBtn.addEventListener("click", () => startGame("reveal"));
     backStartBtn.addEventListener("click", backToStart);
+    endBackStartBtn.addEventListener("click", backToStart);
 
     modeShapeToNameBtn.addEventListener("click", () => setQuestionMode("shapeToName"));
     modeNameToShapeBtn.addEventListener("click", () => setQuestionMode("nameToShape"));
