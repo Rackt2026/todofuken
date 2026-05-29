@@ -14,76 +14,125 @@
       margin: 0;
       min-height: 100vh;
       font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      color: #26384d;
       background:
-        radial-gradient(circle at top left, #fff4bd 0, transparent 32%),
-        radial-gradient(circle at bottom right, #c9f3ff 0, transparent 36%),
-        linear-gradient(135deg, #f6fbff 0%, #fffdf4 100%);
-      color: #2f3a4a;
+        radial-gradient(circle at 10% 10%, #fff1a8 0 70px, transparent 72px),
+        radial-gradient(circle at 92% 15%, #ffb3d9 0 64px, transparent 66px),
+        radial-gradient(circle at 12% 88%, #b7f7c5 0 76px, transparent 78px),
+        radial-gradient(circle at 88% 86%, #9ee7ff 0 92px, transparent 94px),
+        linear-gradient(135deg, #e9f8ff 0%, #fff9dd 50%, #fff1f8 100%);
       overflow-x: hidden;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 207, 74, .45) 0 5px, transparent 6px),
+        radial-gradient(circle, rgba(123, 223, 242, .38) 0 5px, transparent 6px);
+      background-size: 72px 72px, 96px 96px;
+      background-position: 0 0, 34px 38px;
+      opacity: .55;
+      z-index: -1;
+    }
+
     .app {
-      max-width: 980px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 18px;
+      padding: 16px;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+      position: relative;
     }
 
     .badge {
-      display: inline-block;
-      padding: 6px 16px;
-      background: #ffcf4a;
-      border: 3px solid #2f3a4a;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      background: #ffffff;
+      border: 3px solid #26384d;
       border-radius: 999px;
       font-weight: 900;
       font-size: 14px;
-      box-shadow: 0 4px 0 #2f3a4a;
+      box-shadow: 0 5px 0 #26384d;
       margin-bottom: 12px;
     }
 
     h1 {
-      margin: 8px 0 6px;
-      font-size: clamp(26px, 6vw, 44px);
-      letter-spacing: 0.06em;
+      margin: 8px 0 8px;
+      font-size: clamp(30px, 7vw, 52px);
+      letter-spacing: 0.04em;
       color: #1f5f99;
-      text-shadow: 2px 2px 0 #ffffff;
+      text-shadow:
+        3px 3px 0 #ffffff,
+        5px 5px 0 #ffcf4a;
+      line-height: 1.2;
     }
 
     .lead {
+      display: inline-block;
       margin: 0;
+      padding: 10px 16px;
+      background: rgba(255,255,255,.78);
+      border-radius: 18px;
       font-size: 15px;
-      line-height: 1.8;
+      line-height: 1.7;
       color: #52606d;
+      font-weight: 700;
     }
 
     .panel {
-      background: rgba(255, 255, 255, 0.96);
-      border: 3px solid #2f3a4a;
-      border-radius: 26px;
-      box-shadow: 0 8px 0 #2f3a4a;
+      background: rgba(255, 255, 255, 0.95);
+      border: 4px solid #26384d;
+      border-radius: 34px;
+      box-shadow: 0 10px 0 #26384d;
       padding: 18px;
       margin-bottom: 18px;
       position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "★";
+      position: absolute;
+      top: 12px;
+      left: 18px;
+      font-size: 34px;
+      color: #ffcf4a;
+      transform: rotate(-15deg);
+    }
+
+    .panel::after {
+      content: "●";
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      font-size: 28px;
+      color: #7bdff2;
     }
 
     .topbar {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 10px;
-      margin-bottom: 14px;
+      margin: 8px auto 16px;
+      max-width: 760px;
     }
 
     .status-card {
-      background: #f7fbff;
-      border: 2px solid #d5e5f4;
-      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f0fbff 100%);
+      border: 3px solid #26384d;
+      border-radius: 22px;
       padding: 10px;
       text-align: center;
-      font-weight: 800;
+      font-weight: 900;
+      box-shadow: 0 5px 0 #26384d;
     }
 
     .status-card span {
@@ -94,16 +143,22 @@
     }
 
     .status-card strong {
-      font-size: 22px;
+      font-size: 24px;
       color: #1f5f99;
     }
 
     .mode-title {
       text-align: center;
       font-weight: 900;
-      color: #2f3a4a;
-      margin: 14px 0 8px;
-      font-size: 16px;
+      color: #26384d;
+      margin: 14px 0 9px;
+      font-size: 17px;
+    }
+
+    .mode-title::before,
+    .mode-title::after {
+      content: " ✦ ";
+      color: #ff8ec7;
     }
 
     .mode-box {
@@ -129,14 +184,14 @@
 
     .mode-btn,
     .control-btn {
-      padding: 12px 16px;
+      padding: 12px 17px;
       border-radius: 999px;
       font-weight: 900;
       font-size: 15px;
-      border: 3px solid #2f3a4a;
-      box-shadow: 0 4px 0 #2f3a4a;
+      border: 3px solid #26384d;
+      box-shadow: 0 5px 0 #26384d;
       background: #ffffff;
-      color: #2f3a4a;
+      color: #26384d;
     }
 
     .mode-btn.active {
@@ -154,41 +209,58 @@
     .answer-show-btn {
       background: #ff9fcb;
       font-size: 20px;
-      padding: 14px 24px;
+      padding: 14px 26px;
     }
 
     .mode-btn:active,
     .control-btn:active,
     .answer-btn:active,
     .shape-choice:active {
-      transform: translateY(4px);
+      transform: translateY(5px);
       box-shadow: none;
     }
 
     .question-area {
       text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .question-card {
+      max-width: 820px;
+      margin: 16px auto;
+      padding: 12px 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #fff9df 100%);
+      border: 3px solid #26384d;
+      border-radius: 28px;
+      box-shadow: 0 6px 0 #26384d;
     }
 
     .question-title {
-      font-size: clamp(22px, 5vw, 34px);
-      margin: 10px 0 16px;
+      font-size: clamp(23px, 5vw, 36px);
+      margin: 6px 0;
       color: #26384d;
       line-height: 1.45;
+      font-weight: 900;
     }
 
     .shape-wrap {
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       height: 320px;
       margin: 0 auto 16px;
-      background: #f8fbff;
-      border: 3px dashed #a7c7e7;
-      border-radius: 24px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,207,74,.28) 0 22px, transparent 24px),
+        radial-gradient(circle at 85% 80%, rgba(255,159,203,.25) 0 28px, transparent 30px),
+        #f8fdff;
+      border: 4px dashed #77c6e8;
+      border-radius: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       position: relative;
+      box-shadow: inset 0 0 0 8px rgba(255,255,255,.85);
     }
 
     .shape-wrap.loading::after {
@@ -196,9 +268,10 @@
       position: absolute;
       font-weight: 900;
       color: #62748a;
-      background: rgba(255,255,255,.85);
-      padding: 10px 14px;
+      background: rgba(255,255,255,.9);
+      padding: 10px 16px;
       border-radius: 999px;
+      border: 2px solid #a7c7e7;
     }
 
     svg.pref-svg {
@@ -210,28 +283,32 @@
     .pref-shape {
       fill: #62c370;
       stroke: #23633a;
-      stroke-width: 2.6;
+      stroke-width: 2.8;
       stroke-linejoin: round;
     }
 
     .answers {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      max-width: 640px;
+      gap: 13px;
+      max-width: 680px;
       margin: 14px auto;
     }
 
     .answer-btn {
-      min-height: 64px;
+      min-height: 68px;
       padding: 12px;
-      border-radius: 20px;
-      border: 3px solid #2f3a4a;
-      box-shadow: 0 5px 0 #2f3a4a;
-      background: #ffffff;
-      font-size: clamp(18px, 4.5vw, 26px);
+      border-radius: 24px;
+      border: 3px solid #26384d;
+      box-shadow: 0 6px 0 #26384d;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+      font-size: clamp(18px, 4.5vw, 27px);
       font-weight: 900;
       color: #26384d;
+    }
+
+    .answer-btn:hover {
+      background: #fff5bf;
     }
 
     .answer-btn.correct {
@@ -245,21 +322,25 @@
     .shape-answers {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      max-width: 760px;
+      gap: 13px;
+      max-width: 780px;
       margin: 14px auto;
     }
 
     .shape-choice {
-      height: 180px;
+      height: 185px;
       padding: 10px;
-      border-radius: 22px;
-      border: 3px solid #2f3a4a;
-      box-shadow: 0 5px 0 #2f3a4a;
-      background: #ffffff;
+      border-radius: 26px;
+      border: 3px solid #26384d;
+      box-shadow: 0 6px 0 #26384d;
+      background: linear-gradient(180deg, #ffffff 0%, #f4fbff 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .shape-choice:hover {
+      background: #fff5bf;
     }
 
     .shape-choice.correct {
@@ -276,17 +357,26 @@
     }
 
     .hint {
-      min-height: 34px;
+      min-height: 36px;
       margin: 8px 0 12px;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 900;
       color: #e27802;
     }
 
+    .hint:not(:empty) {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #fff4c4;
+      border: 3px solid #e8a500;
+      border-radius: 999px;
+      box-shadow: 0 4px 0 #b87900;
+    }
+
     .message {
-      min-height: 42px;
+      min-height: 44px;
       margin: 12px 0 8px;
-      font-size: 23px;
+      font-size: 24px;
       font-weight: 900;
       line-height: 1.5;
     }
@@ -301,13 +391,15 @@
 
     .reveal-box {
       display: none;
-      max-width: 620px;
-      margin: 16px auto;
-      padding: 18px;
-      border: 4px solid #2f3a4a;
-      border-radius: 26px;
-      background: #fff6c7;
-      box-shadow: 0 6px 0 #2f3a4a;
+      max-width: 640px;
+      margin: 18px auto;
+      padding: 20px;
+      border: 4px solid #26384d;
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at 14% 20%, rgba(255,255,255,.9) 0 28px, transparent 30px),
+        linear-gradient(180deg, #fff6c7 0%, #ffe8f4 100%);
+      box-shadow: 0 8px 0 #26384d;
     }
 
     .reveal-label {
@@ -318,18 +410,25 @@
     }
 
     .reveal-answer {
-      font-size: clamp(34px, 8vw, 60px);
+      font-size: clamp(38px, 9vw, 66px);
       font-weight: 900;
       color: #1f5f99;
       line-height: 1.2;
-      text-shadow: 2px 2px 0 #ffffff;
+      text-shadow:
+        2px 2px 0 #ffffff,
+        4px 4px 0 #ffcf4a;
     }
 
     .reveal-region {
-      margin-top: 8px;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 7px 14px;
       font-size: 20px;
       font-weight: 900;
       color: #e27802;
+      background: #ffffff;
+      border: 3px solid #e8a500;
+      border-radius: 999px;
     }
 
     .controls {
@@ -341,20 +440,21 @@
     }
 
     .small-note {
-      margin: 14px auto 0;
-      max-width: 760px;
+      margin: 16px auto 0;
+      max-width: 780px;
       font-size: 13px;
       line-height: 1.7;
       color: #6d7a88;
       text-align: left;
-      background: #f7fbff;
-      border-radius: 14px;
-      padding: 10px 12px;
+      background: rgba(247,251,255,.9);
+      border: 2px solid #d5e5f4;
+      border-radius: 18px;
+      padding: 11px 13px;
     }
 
     .error-box {
       padding: 16px;
-      border-radius: 18px;
+      border-radius: 20px;
       background: #fff1f1;
       border: 3px solid #e86b6b;
       color: #8c1f1f;
@@ -408,7 +508,12 @@
 
       .panel {
         padding: 14px;
-        border-radius: 22px;
+        border-radius: 26px;
+      }
+
+      .panel::before,
+      .panel::after {
+        display: none;
       }
 
       .topbar {
@@ -418,6 +523,7 @@
 
       .status-card {
         padding: 8px 4px;
+        border-radius: 18px;
       }
 
       .status-card strong {
@@ -437,11 +543,17 @@
       .answer-btn {
         min-height: 58px;
         font-size: 18px;
-        border-radius: 17px;
+        border-radius: 18px;
       }
 
       .shape-choice {
         height: 150px;
+      }
+
+      .mode-btn,
+      .control-btn {
+        font-size: 14px;
+        padding: 10px 13px;
       }
     }
   </style>
@@ -450,10 +562,11 @@
 <body>
   <main class="app">
     <header class="header">
-      <div class="badge">小学生 社会アプリ</div>
-      <h1>都道府県シルエットクイズ</h1>
+      <div class="badge">🌈 小学生 社会アプリ</div>
+      <h1>都道府県<br>シルエットクイズ</h1>
       <p class="lead">
-        形を見て答える、県名を見て形を選ぶ。個人でも、みんなでも楽しく学べます。
+        形を見て答える、県名を見て形を選ぶ。<br>
+        個人でも、みんなでも楽しく学べます。
       </p>
     </header>
 
@@ -475,8 +588,8 @@
 
       <div class="mode-title">学習スタイル</div>
       <div class="mode-box">
-        <button class="mode-btn study-active" id="studyChoiceBtn">個人練習：4択で答える</button>
-        <button class="mode-btn" id="studyRevealBtn">みんなで考える：正解を見る</button>
+        <button class="mode-btn study-active" id="studyChoiceBtn">ひとりで4択</button>
+        <button class="mode-btn" id="studyRevealBtn">みんなで考える</button>
       </div>
 
       <div class="mode-title">問題タイプ</div>
@@ -489,7 +602,9 @@
       <div id="errorBox" class="error-box"></div>
 
       <div class="question-area">
-        <h2 class="question-title" id="questionTitle">地図データを読み込んでいます</h2>
+        <div class="question-card">
+          <h2 class="question-title" id="questionTitle">地図データを読み込んでいます</h2>
+        </div>
 
         <div id="mainShapeWrap" class="shape-wrap loading">
           <div id="mainShape"></div>
@@ -516,7 +631,7 @@
         </div>
 
         <p class="small-note">
-          ※「個人練習」は4択で答えるモードです。<br>
+          ※「ひとりで4択」は、個人練習用です。<br>
           ※「みんなで考える」は、授業や集団学習で画面を見ながら考えたあとに、正解ボタンで答えを表示するモードです。<br>
           ※都道府県の形は外部の地図データを読み込んで表示します。GitHub Pagesで使う場合はインターネット接続が必要です。
         </p>
@@ -581,17 +696,14 @@
     let currentPref = null;
     let currentQuestionMode = "shapeToName";
     let answerLocked = false;
-
     let studyMode = "choice";
     let currentMode = "shapeToName";
-
     let questionCount = 0;
     let correctCount = 0;
 
     const qCountEl = document.getElementById("qCount");
     const correctCountEl = document.getElementById("correctCount");
     const rateEl = document.getElementById("rate");
-
     const scoreAreaEl = document.getElementById("scoreArea");
     const questionTitleEl = document.getElementById("questionTitle");
     const mainShapeWrapEl = document.getElementById("mainShapeWrap");
@@ -601,7 +713,6 @@
     const hintTextEl = document.getElementById("hintText");
     const messageEl = document.getElementById("message");
     const errorBox = document.getElementById("errorBox");
-
     const revealBoxEl = document.getElementById("revealBox");
     const revealAnswerEl = document.getElementById("revealAnswer");
     const revealRegionEl = document.getElementById("revealRegion");
@@ -610,10 +721,8 @@
     const showAnswerBtn = document.getElementById("showAnswerBtn");
     const nextBtn = document.getElementById("nextBtn");
     const resetBtn = document.getElementById("resetBtn");
-
     const studyChoiceBtn = document.getElementById("studyChoiceBtn");
     const studyRevealBtn = document.getElementById("studyRevealBtn");
-
     const modeShapeToNameBtn = document.getElementById("modeShapeToName");
     const modeNameToShapeBtn = document.getElementById("modeNameToShape");
     const modeMixBtn = document.getElementById("modeMix");
@@ -680,8 +789,7 @@
 
     function createConfetti() {
       const colors = ["#ffcf4a", "#7bdff2", "#b7f7c5", "#ff9fcb", "#cdb4db", "#ffadad"];
-
-      for (let i = 0; i < 36; i++) {
+      for (let i = 0; i < 40; i++) {
         const piece = document.createElement("div");
         piece.className = "confetti";
         piece.style.left = Math.random() * 100 + "vw";
@@ -689,10 +797,7 @@
         piece.style.animationDelay = Math.random() * 0.25 + "s";
         piece.style.transform = `rotate(${Math.random() * 360}deg)`;
         document.body.appendChild(piece);
-
-        setTimeout(() => {
-          piece.remove();
-        }, 1600);
+        setTimeout(() => piece.remove(), 1600);
       }
     }
 
@@ -705,16 +810,7 @@
     }
 
     function findCodeFromProperties(properties) {
-      const keys = [
-        "code",
-        "pref",
-        "prefectureCode",
-        "N03_007",
-        "id",
-        "ID",
-        "PREF",
-        "jiscode"
-      ];
+      const keys = ["code", "pref", "prefectureCode", "N03_007", "id", "ID", "PREF", "jiscode"];
 
       for (const key of keys) {
         if (properties && properties[key] !== undefined) {
@@ -741,15 +837,8 @@
 
     function collectRings(geometry) {
       if (!geometry) return [];
-
-      if (geometry.type === "Polygon") {
-        return geometry.coordinates;
-      }
-
-      if (geometry.type === "MultiPolygon") {
-        return geometry.coordinates.flat();
-      }
-
+      if (geometry.type === "Polygon") return geometry.coordinates;
+      if (geometry.type === "MultiPolygon") return geometry.coordinates.flat();
       return [];
     }
 
@@ -778,7 +867,6 @@
       const height = maxY - minY || 1;
       const padding = 20;
       const scale = Math.min((size - padding * 2) / width, (size - padding * 2) / height);
-
       const offsetX = (size - width * scale) / 2;
       const offsetY = (size - height * scale) / 2;
 
@@ -968,20 +1056,16 @@
 
     function setStudyMode(mode) {
       studyMode = mode;
-
       studyChoiceBtn.classList.toggle("study-active", mode === "choice");
       studyRevealBtn.classList.toggle("study-active", mode === "reveal");
-
       createQuestion();
     }
 
     function setQuestionMode(mode) {
       currentMode = mode;
-
       modeShapeToNameBtn.classList.toggle("active", mode === "shapeToName");
       modeNameToShapeBtn.classList.toggle("active", mode === "nameToShape");
       modeMixBtn.classList.toggle("active", mode === "mix");
-
       createQuestion();
     }
 
