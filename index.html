@@ -41,46 +41,46 @@
     .app {
       max-width: 1020px;
       margin: 0 auto;
-      padding: 10px 14px;
+      padding: 8px 14px;
     }
 
     .logo-area {
       text-align: center;
-      margin: 4px 0 4px;
+      margin: 2px 0 2px;
     }
 
     .logo-area img {
-      max-width: 190px;
-      width: 42vw;
+      max-width: 165px;
+      width: 38vw;
       height: auto;
       display: inline-block;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     h1 {
-      margin: 2px 0 4px;
-      font-size: clamp(26px, 5.2vw, 42px);
+      margin: 0 0 3px;
+      font-size: clamp(25px, 5vw, 38px);
       letter-spacing: 0.06em;
       color: #1f5f99;
       text-shadow:
         2px 2px 0 #ffffff,
         4px 4px 0 #ffcf4a;
-      line-height: 1.18;
+      line-height: 1.14;
       font-weight: 900;
     }
 
     .lead {
       display: inline-block;
       margin: 0;
-      padding: 6px 14px;
+      padding: 5px 12px;
       background: rgba(255,255,255,.78);
       border-radius: 999px;
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 13px;
+      line-height: 1.4;
       color: #52606d;
       font-weight: 700;
     }
@@ -88,10 +88,10 @@
     .panel {
       background: rgba(255, 255, 255, 0.96);
       border: 4px solid #26384d;
-      border-radius: 30px;
-      box-shadow: 0 8px 0 #26384d;
-      padding: 12px 16px 14px;
-      margin-bottom: 10px;
+      border-radius: 28px;
+      box-shadow: 0 7px 0 #26384d;
+      padding: 10px 16px 12px;
+      margin-bottom: 8px;
       position: relative;
       overflow: hidden;
     }
@@ -99,9 +99,9 @@
     .panel::before {
       content: "★";
       position: absolute;
-      top: 8px;
+      top: 7px;
       left: 16px;
-      font-size: 26px;
+      font-size: 24px;
       color: #ffcf4a;
       transform: rotate(-15deg);
     }
@@ -109,9 +109,9 @@
     .panel::after {
       content: "●";
       position: absolute;
-      top: 12px;
+      top: 11px;
       right: 22px;
-      font-size: 22px;
+      font-size: 21px;
       color: #7bdff2;
     }
 
@@ -119,28 +119,28 @@
       max-width: 820px;
       margin: 0 auto;
       text-align: center;
-      padding: 8px 0 4px;
+      padding: 6px 0 4px;
       position: relative;
       z-index: 2;
     }
 
     .start-title {
-      font-size: clamp(24px, 5vw, 40px);
-      margin: 8px 0 10px;
+      font-size: clamp(24px, 5vw, 38px);
+      margin: 6px 0 8px;
       color: #1f5f99;
       text-shadow:
         2px 2px 0 #ffffff,
         4px 4px 0 #ffcf4a;
-      line-height: 1.25;
+      line-height: 1.22;
       font-weight: 900;
     }
 
     .start-sub {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #52606d;
-      margin: 0 0 14px;
-      line-height: 1.6;
+      margin: 0 0 12px;
+      line-height: 1.5;
     }
 
     .start-buttons {
@@ -148,12 +148,12 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
       max-width: 720px;
-      margin: 0 auto 14px;
+      margin: 0 auto 10px;
     }
 
     .start-btn {
-      min-height: 150px;
-      padding: 18px 14px;
+      min-height: 140px;
+      padding: 17px 14px;
       border-radius: 30px;
       border: 4px solid #26384d;
       box-shadow: 0 8px 0 #26384d;
@@ -176,13 +176,13 @@
     .start-main {
       display: block;
       font-size: clamp(24px, 4vw, 34px);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       color: #1f5f99;
     }
 
     .start-detail {
       display: block;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.6;
       color: #52606d;
     }
@@ -193,34 +193,18 @@
       z-index: 2;
     }
 
-    .topbar {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      margin: 2px auto 8px;
-      max-width: 650px;
-    }
-
-    .status-card {
-      background: linear-gradient(180deg, #ffffff 0%, #f0fbff 100%);
-      border: 3px solid #26384d;
-      border-radius: 18px;
-      padding: 6px;
+    .score-text {
       text-align: center;
+      font-size: 18px;
       font-weight: 900;
-      box-shadow: 0 4px 0 #26384d;
-    }
-
-    .status-card span {
-      display: block;
-      font-size: 11px;
-      color: #6d7a88;
-      margin-bottom: 2px;
-    }
-
-    .status-card strong {
-      font-size: 20px;
       color: #1f5f99;
+      margin: 0 auto 5px;
+      line-height: 1.4;
+    }
+
+    .score-text span {
+      margin: 0 10px;
+      white-space: nowrap;
     }
 
     .mode-row {
@@ -229,14 +213,14 @@
       justify-content: center;
       gap: 7px;
       flex-wrap: wrap;
-      margin: 6px 0 8px;
+      margin: 5px 0 7px;
     }
 
     .mode-label {
       font-weight: 900;
-      font-size: 14px;
+      font-size: 13px;
       color: #26384d;
-      padding: 6px 10px;
+      padding: 5px 10px;
       background: #fff4c4;
       border: 2px solid #e8a500;
       border-radius: 999px;
@@ -259,10 +243,10 @@
     .mode-btn,
     .control-btn,
     .back-btn {
-      padding: 8px 12px;
+      padding: 7px 12px;
       border-radius: 999px;
       font-weight: 900;
-      font-size: 14px;
+      font-size: 13px;
       border: 3px solid #26384d;
       box-shadow: 0 4px 0 #26384d;
       background: #ffffff;
@@ -279,8 +263,8 @@
 
     .answer-show-btn {
       background: #ff9fcb;
-      font-size: 17px;
-      padding: 10px 18px;
+      font-size: 16px;
+      padding: 9px 18px;
     }
 
     .back-btn {
@@ -302,27 +286,27 @@
 
     .question-card {
       max-width: 760px;
-      margin: 6px auto 8px;
-      padding: 8px 12px;
+      margin: 5px auto 7px;
+      padding: 7px 12px;
       background: linear-gradient(180deg, #ffffff 0%, #fff9df 100%);
       border: 3px solid #26384d;
-      border-radius: 24px;
-      box-shadow: 0 5px 0 #26384d;
+      border-radius: 22px;
+      box-shadow: 0 4px 0 #26384d;
     }
 
     .question-title {
-      font-size: clamp(21px, 4vw, 31px);
-      margin: 2px 0;
+      font-size: clamp(21px, 4vw, 30px);
+      margin: 1px 0;
       color: #26384d;
-      line-height: 1.35;
+      line-height: 1.32;
       font-weight: 900;
     }
 
     .shape-wrap {
       width: 100%;
-      max-width: 370px;
-      height: 230px;
-      margin: 0 auto 8px;
+      max-width: 365px;
+      height: 220px;
+      margin: 0 auto 7px;
       background:
         radial-gradient(circle at 15% 20%, rgba(255,207,74,.26) 0 18px, transparent 20px),
         radial-gradient(circle at 85% 80%, rgba(255,159,203,.24) 0 22px, transparent 24px),
@@ -365,14 +349,14 @@
     .answers {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
+      gap: 8px;
       max-width: 610px;
-      margin: 8px auto;
+      margin: 7px auto;
     }
 
     .answer-btn {
-      min-height: 50px;
-      padding: 8px;
+      min-height: 48px;
+      padding: 7px;
       border-radius: 20px;
       border: 3px solid #26384d;
       box-shadow: 0 5px 0 #26384d;
@@ -397,14 +381,14 @@
     .shape-answers {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
+      gap: 8px;
       max-width: 700px;
-      margin: 8px auto;
+      margin: 7px auto;
     }
 
     .shape-choice {
-      height: 130px;
-      padding: 8px;
+      height: 125px;
+      padding: 7px;
       border-radius: 22px;
       border: 3px solid #26384d;
       box-shadow: 0 5px 0 #26384d;
@@ -432,8 +416,8 @@
     }
 
     .hint {
-      min-height: 28px;
-      margin: 4px 0 6px;
+      min-height: 26px;
+      margin: 3px 0 5px;
       font-size: 16px;
       font-weight: 900;
       color: #e27802;
@@ -441,34 +425,18 @@
 
     .hint:not(:empty) {
       display: inline-block;
-      padding: 6px 13px;
+      padding: 5px 13px;
       background: #fff4c4;
       border: 3px solid #e8a500;
       border-radius: 999px;
       box-shadow: 0 3px 0 #b87900;
     }
 
-    .message {
-      min-height: 32px;
-      margin: 4px 0 4px;
-      font-size: 20px;
-      font-weight: 900;
-      line-height: 1.35;
-    }
-
-    .message.ok {
-      color: #148a3b;
-    }
-
-    .message.ng {
-      color: #d43d3d;
-    }
-
     .reveal-box {
       display: none;
       max-width: 600px;
-      margin: 8px auto;
-      padding: 12px 16px;
+      margin: 7px auto;
+      padding: 10px 16px;
       border: 4px solid #26384d;
       border-radius: 28px;
       background:
@@ -496,7 +464,7 @@
 
     .reveal-region {
       display: inline-block;
-      margin-top: 6px;
+      margin-top: 5px;
       padding: 5px 12px;
       font-size: 17px;
       font-weight: 900;
@@ -511,7 +479,7 @@
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 6px;
+      margin-top: 5px;
     }
 
     .error-box {
@@ -524,6 +492,54 @@
       line-height: 1.6;
       display: none;
       font-size: 14px;
+    }
+
+    .judge-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .judge-mark {
+      min-width: 260px;
+      padding: 26px 34px;
+      border: 6px solid #26384d;
+      border-radius: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 0 #26384d;
+      font-size: clamp(54px, 12vw, 110px);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.1;
+      animation: judgePop 0.35s ease;
+    }
+
+    .judge-mark.correct {
+      color: #12883b;
+    }
+
+    .judge-mark.wrong {
+      color: #d83a3a;
+    }
+
+    @keyframes judgePop {
+      0% {
+        transform: scale(0.55) rotate(-8deg);
+        opacity: 0;
+      }
+      65% {
+        transform: scale(1.12) rotate(3deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
     }
 
     .confetti {
@@ -560,24 +576,23 @@
 
     @media (max-width: 700px) {
       .app {
-        padding: 8px 10px;
+        padding: 7px 10px;
       }
 
       .logo-area img {
-        max-width: 150px;
+        max-width: 135px;
       }
 
       h1 {
-        font-size: 28px;
+        font-size: 26px;
       }
 
       .lead {
-        font-size: 12px;
-        padding: 5px 10px;
+        display: none;
       }
 
       .panel {
-        padding: 10px;
+        padding: 9px;
         border-radius: 24px;
         box-shadow: 0 6px 0 #26384d;
       }
@@ -593,7 +608,7 @@
       }
 
       .start-btn {
-        min-height: 112px;
+        min-height: 105px;
         border-radius: 24px;
       }
 
@@ -605,18 +620,12 @@
         font-size: 13px;
       }
 
-      .topbar {
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 6px;
+      .score-text {
+        font-size: 15px;
       }
 
-      .status-card {
-        padding: 5px 3px;
-        border-radius: 15px;
-      }
-
-      .status-card strong {
-        font-size: 16px;
+      .score-text span {
+        margin: 0 4px;
       }
 
       .mode-row {
@@ -647,7 +656,7 @@
       }
 
       .shape-wrap {
-        height: 190px;
+        height: 180px;
         max-width: 320px;
       }
 
@@ -658,27 +667,28 @@
       }
 
       .answer-btn {
-        min-height: 47px;
+        min-height: 45px;
         font-size: 16px;
         border-radius: 17px;
       }
 
       .shape-choice {
-        height: 112px;
+        height: 108px;
       }
 
-      .message {
-        font-size: 17px;
+      .judge-mark {
+        min-width: 220px;
+        padding: 22px 26px;
       }
     }
 
     @media (max-height: 720px) and (min-width: 701px) {
       .logo-area img {
-        max-width: 145px;
+        max-width: 130px;
       }
 
       h1 {
-        font-size: 34px;
+        font-size: 32px;
       }
 
       .lead {
@@ -686,25 +696,29 @@
       }
 
       .shape-wrap {
-        height: 205px;
+        height: 195px;
       }
 
       .shape-choice {
-        height: 120px;
+        height: 116px;
       }
 
       .answer-btn {
-        min-height: 46px;
+        min-height: 44px;
       }
 
       .question-title {
-        font-size: 25px;
+        font-size: 24px;
       }
     }
   </style>
 </head>
 
 <body>
+  <div id="judgeOverlay" class="judge-overlay">
+    <div id="judgeMark" class="judge-mark"></div>
+  </div>
+
   <main class="app">
     <div class="logo-area">
       <a href="https://manabiya-tsubame.com/" target="_blank" rel="noopener">
@@ -736,19 +750,10 @@
       </div>
 
       <div id="gameScreen" class="game-screen">
-        <div class="topbar" id="scoreArea">
-          <div class="status-card">
-            <span>問題</span>
-            <strong id="qCount">0</strong>
-          </div>
-          <div class="status-card">
-            <span>正解</span>
-            <strong id="correctCount">0</strong>
-          </div>
-          <div class="status-card">
-            <span>正答率</span>
-            <strong id="rate">0%</strong>
-          </div>
+        <div class="score-text" id="scoreArea">
+          <span>問題：<strong id="qCount">0</strong></span>
+          <span>正解：<strong id="correctCount">0</strong></span>
+          <span>正答率：<strong id="rate">0%</strong></span>
         </div>
 
         <div class="mode-row">
@@ -780,8 +785,6 @@
             <div id="revealAnswer" class="reveal-answer"></div>
             <div id="revealRegion" class="reveal-region"></div>
           </div>
-
-          <div id="message" class="message"></div>
 
           <div class="controls">
             <button class="control-btn" id="hintBtn">ヒントを見る</button>
@@ -856,6 +859,7 @@
     let questionCount = 0;
     let correctCount = 0;
     let geoLoaded = false;
+    let autoTimer = null;
 
     const startScreenEl = document.getElementById("startScreen");
     const gameScreenEl = document.getElementById("gameScreen");
@@ -864,17 +868,21 @@
     const correctCountEl = document.getElementById("correctCount");
     const rateEl = document.getElementById("rate");
     const scoreAreaEl = document.getElementById("scoreArea");
+
     const questionTitleEl = document.getElementById("questionTitle");
     const mainShapeWrapEl = document.getElementById("mainShapeWrap");
     const mainShapeEl = document.getElementById("mainShape");
     const textAnswersEl = document.getElementById("textAnswers");
     const shapeAnswersEl = document.getElementById("shapeAnswers");
     const hintTextEl = document.getElementById("hintText");
-    const messageEl = document.getElementById("message");
     const errorBox = document.getElementById("errorBox");
+
     const revealBoxEl = document.getElementById("revealBox");
     const revealAnswerEl = document.getElementById("revealAnswer");
     const revealRegionEl = document.getElementById("revealRegion");
+
+    const judgeOverlayEl = document.getElementById("judgeOverlay");
+    const judgeMarkEl = document.getElementById("judgeMark");
 
     const hintBtn = document.getElementById("hintBtn");
     const showAnswerBtn = document.getElementById("showAnswerBtn");
@@ -913,6 +921,13 @@
       rateEl.textContent = rate + "%";
     }
 
+    function clearAutoTimer() {
+      if (autoTimer) {
+        clearTimeout(autoTimer);
+        autoTimer = null;
+      }
+    }
+
     function playSound(type) {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (!AudioContext) return;
@@ -947,6 +962,26 @@
         oscillator.start();
         oscillator.stop(audioCtx.currentTime + 0.35);
       }
+    }
+
+    function showJudge(type) {
+      judgeOverlayEl.style.display = "flex";
+      judgeMarkEl.className = "judge-mark " + type;
+
+      if (type === "correct") {
+        judgeMarkEl.textContent = "◯ 正解！";
+      } else {
+        judgeMarkEl.textContent = "×";
+      }
+
+      judgeMarkEl.style.animation = "none";
+      void judgeMarkEl.offsetWidth;
+      judgeMarkEl.style.animation = "";
+    }
+
+    function hideJudge() {
+      judgeOverlayEl.style.display = "none";
+      judgeMarkEl.textContent = "";
     }
 
     function createConfetti() {
@@ -1049,12 +1084,9 @@
       `;
     }
 
-    function showMessage(text, type) {
-      messageEl.textContent = text;
-      messageEl.className = "message " + (type || "");
-    }
-
     function clearQuestionArea() {
+      clearAutoTimer();
+      hideJudge();
       mainShapeEl.innerHTML = "";
       textAnswersEl.innerHTML = "";
       shapeAnswersEl.innerHTML = "";
@@ -1062,7 +1094,6 @@
       revealBoxEl.style.display = "none";
       revealAnswerEl.textContent = "";
       revealRegionEl.textContent = "";
-      showMessage("", "");
     }
 
     function makeTextChoices(correctPref) {
@@ -1098,17 +1129,27 @@
       if (selectedPref.code === correctPref.code) {
         correctCount++;
         button.classList.add("correct");
-        showMessage("正解！よく見つけました！", "ok");
+        updateScore();
+        showJudge("correct");
         playSound("correct");
         createConfetti();
+
+        autoTimer = setTimeout(() => {
+          createQuestion();
+        }, 1000);
+
       } else {
         button.classList.add("wrong");
-        showMessage(`正解は「${correctPref.name}」です。`, "ng");
-        playSound("wrong");
         markCorrectText(correctPref);
-      }
+        updateScore();
+        showJudge("wrong");
+        playSound("wrong");
+        showCorrectAnswer(correctPref);
 
-      updateScore();
+        autoTimer = setTimeout(() => {
+          createQuestion();
+        }, 2000);
+      }
     }
 
     function markCorrectText(correctPref) {
@@ -1128,17 +1169,27 @@
       if (selectedPref.code === correctPref.code) {
         correctCount++;
         button.classList.add("correct");
-        showMessage("正解！形をよく見られています！", "ok");
+        updateScore();
+        showJudge("correct");
         playSound("correct");
         createConfetti();
+
+        autoTimer = setTimeout(() => {
+          createQuestion();
+        }, 1000);
+
       } else {
         button.classList.add("wrong");
-        showMessage(`正解は「${correctPref.name}」の形です。`, "ng");
-        playSound("wrong");
         markCorrectShape(correctPref);
-      }
+        updateScore();
+        showJudge("wrong");
+        playSound("wrong");
+        showCorrectAnswer(correctPref);
 
-      updateScore();
+        autoTimer = setTimeout(() => {
+          createQuestion();
+        }, 2000);
+      }
     }
 
     function markCorrectShape(correctPref) {
@@ -1148,6 +1199,16 @@
           btn.classList.add("correct");
         }
       });
+    }
+
+    function showCorrectAnswer(pref) {
+      revealBoxEl.style.display = "block";
+      revealBoxEl.classList.remove("pop");
+      void revealBoxEl.offsetWidth;
+      revealBoxEl.classList.add("pop");
+
+      revealAnswerEl.textContent = pref.name;
+      revealRegionEl.textContent = pref.region;
     }
 
     function showRevealAnswer() {
@@ -1184,7 +1245,7 @@
       }
 
       if (studyMode === "choice") {
-        scoreAreaEl.style.display = "grid";
+        scoreAreaEl.style.display = "block";
         showAnswerBtn.style.display = "none";
       } else {
         scoreAreaEl.style.display = "none";
@@ -1229,6 +1290,8 @@
     }
 
     function backToStart() {
+      clearAutoTimer();
+      hideJudge();
       gameScreenEl.style.display = "none";
       startScreenEl.style.display = "block";
       clearQuestionArea();
