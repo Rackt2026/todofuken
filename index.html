@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -593,16 +594,6 @@
       }
     }
 
-    .pop {
-      animation: pop 0.35s ease;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.9); }
-      60% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
     @media (max-width: 700px) {
       .app {
         padding: 7px 10px;
@@ -715,37 +706,6 @@
       .judge-mark {
         min-width: 220px;
         padding: 22px 26px;
-      }
-    }
-
-    @media (max-height: 720px) and (min-width: 701px) {
-      .logo-area img {
-        max-width: 130px;
-      }
-
-      h1 {
-        font-size: 32px;
-      }
-
-      .lead {
-        display: none;
-      }
-
-      .shape-wrap {
-        height: 250px;
-        max-width: 500px;
-      }
-
-      .shape-choice {
-        height: 170px;
-      }
-
-      .answer-btn {
-        min-height: 44px;
-      }
-
-      .question-title {
-        font-size: 24px;
       }
     }
   </style>
@@ -898,7 +858,6 @@
     let correctCount = 0;
     let geoLoaded = false;
     let autoTimer = null;
-    let currentShapeChoices = [];
     let currentCorrectNumber = null;
 
     const topHeaderEl = document.getElementById("topHeader");
@@ -1128,7 +1087,6 @@
       revealBoxEl.style.display = "none";
       revealAnswerEl.textContent = "";
       revealRegionEl.textContent = "";
-      currentShapeChoices = [];
       currentCorrectNumber = null;
     }
 
@@ -1146,7 +1104,6 @@
 
     function makeShapeChoices(correctPref) {
       const choices = shuffle([correctPref, ...getWrongPrefs(correctPref.code, 3)]);
-      currentShapeChoices = choices;
       currentCorrectNumber = choices.findIndex(pref => pref.code === correctPref.code) + 1;
 
       choices.forEach((pref, index) => {
@@ -1226,7 +1183,6 @@
         showJudge("correct", `${currentCorrectNumber}番 正解！`);
         playSound("correct");
         createConfetti();
-        showCorrectAnswer(correctPref);
 
         autoTimer = setTimeout(() => {
           createQuestion();
@@ -1257,9 +1213,8 @@
 
     function showCorrectAnswer(pref) {
       revealBoxEl.style.display = "block";
-      revealBoxEl.classList.remove("pop");
-      void revealBoxEl.offsetWidth;
-      revealBoxEl.classList.add("pop");
+      revealAnswerEl.textContent = "";
+      revealRegionEl.textContent = "";
 
       if (currentQuestionMode === "nameToShape" && currentCorrectNumber) {
         revealAnswerEl.textContent = `${currentCorrectNumber}番 正解！`;
@@ -1271,12 +1226,10 @@
     }
 
     function showRevealAnswer() {
-      if (!currentPref) return;
+      if (!currentPref || answerLocked) return;
 
+      answerLocked = true;
       revealBoxEl.style.display = "block";
-      revealBoxEl.classList.remove("pop");
-      void revealBoxEl.offsetWidth;
-      revealBoxEl.classList.add("pop");
 
       if (currentQuestionMode === "shapeToName") {
         revealAnswerEl.textContent = currentPref.name;
@@ -1285,6 +1238,10 @@
         revealAnswerEl.textContent = `${currentCorrectNumber}番 正解！`;
         revealRegionEl.textContent = `正解：${currentPref.name}`;
         markCorrectShape(currentPref);
+
+        autoTimer = setTimeout(() => {
+          createQuestion();
+        }, 2000);
       }
 
       playSound("reveal");
